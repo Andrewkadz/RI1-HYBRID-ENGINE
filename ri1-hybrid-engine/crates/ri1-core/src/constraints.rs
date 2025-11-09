@@ -51,6 +51,7 @@ pub enum OperatorClass {
     WillForce,
     PerceptionModulation,
     MicroTransformation,
+    IntentionVector,
 }
 
 #[derive(Debug, Clone)]

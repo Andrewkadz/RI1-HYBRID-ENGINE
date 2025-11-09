@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Θ — Intention Vector (Section 016)
+struct ThetaGate;
+
+impl OperatorGate for ThetaGate {
+    fn symbol(&self) -> &'static str { "Θ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // configures field orientation without forcing action
+            prevented_fusion: true,         // intention is non-fusional
+            prevented_disruption: true,     // orientation should not disrupt coherence
+            note: Some("Θ sets directed recursive potential (field intention)".into()),
+        }
+    }
+}
+
 // δ — Micro-Transformation (Section 015)
 struct DeltaLowerGate;
 
@@ -307,6 +323,21 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("014".into()),
                 symbol: Some("Ρ".into()),
+            });
+        }
+
+        // Gate pass: Θ (intention / directed recursive potential)
+        let theta = ThetaGate;
+        if content.contains(theta.symbol()) {
+            let out = theta.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Θ: field intention — configures direction for ω/Ψ/Γ".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::IntentionVector,
+                message: msg,
+                section_ref: Some("016".into()),
+                symbol: Some("Θ".into()),
             });
         }
 
