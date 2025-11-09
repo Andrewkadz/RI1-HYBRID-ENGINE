@@ -55,6 +55,14 @@ pub enum OperatorClass {
     IndexModifier,
     Synchronicity,
     Ignition,
+    MeasurementBridge,
+    FlowVector,
+    Simultaneity,
+    InteractionInterface,
+    Disruption,
+    Orthogonality,
+    LoopCycle,
+    StabilizationResolution,
 }
 
 #[derive(Debug, Clone)]

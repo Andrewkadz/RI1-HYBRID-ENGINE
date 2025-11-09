@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// χ — Measurement → Perception Bridge (Section 020)
+struct ChiGate;
+
+impl OperatorGate for ChiGate {
+    fn symbol(&self) -> &'static str { "χ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // tunes field harmonically, collapses to perceivable state
+            prevented_fusion: true,         // measurement bridge is non-fusional
+            prevented_disruption: true,     // non-destructive by default
+            note: Some("χ measurement→perception: harmonic tuning; observer bridge".into()),
+        }
+    }
+}
+
 // Ε — Ignition / Initiation (Section 019)
 struct EpsilonCapitalGate;
 
@@ -270,7 +286,7 @@ impl MetaEngineImpl {
             op("perception_modulation", "ρ"),
             op("intention_vector", "Θ"),
             op("depth_index_modifier", "n"),
-            op("measurement_perception_bridge", "X"),
+            op("measurement_perception_bridge", "χ"),
         ];
         // Φπε Operators (7 Total) — exact set from PDFs
         let conds = vec![
@@ -298,6 +314,23 @@ impl MetaEngine for MetaEngineImpl {
         _ctx: &FieldContext,
     ) -> (Vec<ConstraintResult>, Vec<ResonanceEvent>) {
         let mut events: Vec<ResonanceEvent> = Vec::new();
+        // Gate pass: χ (measurement→perception bridge)
+        let chi = ChiGate;
+        if content.contains(chi.symbol()) {
+            let out = chi.apply(content);
+            let paired_with_omega = content.contains("Ω");
+            let msg = if paired_with_omega {
+                "χ with Ω: observation collapses into terminal integration".into()
+            } else {
+                out.note.unwrap_or_else(|| "χ: harmonic tuning; collapse to perceivable state".into())
+            };
+            events.push(ResonanceEvent {
+                operator: OperatorClass::MeasurementBridge,
+                message: msg,
+                section_ref: Some("020".into()),
+                symbol: Some("χ".into()),
+            });
+        }
         // Gate pass: Ε (ignition / initiation)
         let ecap = EpsilonCapitalGate;
         if content.contains(ecap.symbol()) {
@@ -310,6 +343,63 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("019".into()),
                 symbol: Some("Ε".into()),
+            });
+        }
+        // Conditional operators detection (non-gate)
+        if content.contains("→") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::FlowVector,
+                message: "→: flow vector — directed recursion motion".into(),
+                section_ref: None,
+                symbol: Some("→".into()),
+            });
+        }
+        if content.contains("+") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Simultaneity,
+                message: "+: simultaneity — coexistent recursion states".into(),
+                section_ref: None,
+                symbol: Some("+".into()),
+            });
+        }
+        if content.contains(":") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::InteractionInterface,
+                message: ": interaction — relational interface / tension-contact".into(),
+                section_ref: None,
+                symbol: Some(":".into()),
+            });
+        }
+        if content.contains("/") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Disruption,
+                message: "/: disruption — interference / rupture".into(),
+                section_ref: None,
+                symbol: Some("/".into()),
+            });
+        }
+        if content.contains("|") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Orthogonality,
+                message: "|: orthogonality — non-interacting fields".into(),
+                section_ref: None,
+                symbol: Some("|".into()),
+            });
+        }
+        if content.contains("[") && content.contains("]") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::LoopCycle,
+                message: "[]: loop/cycle — recursion memory or repeat-phase container".into(),
+                section_ref: None,
+                symbol: Some("[]".into()),
+            });
+        }
+        if content.contains("=") {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::StabilizationResolution,
+                message: "=: stabilization — final form / resolution".into(),
+                section_ref: None,
+                symbol: Some("=".into()),
             });
         }
         // Gate pass: Φ (field-phase continuity) detection
