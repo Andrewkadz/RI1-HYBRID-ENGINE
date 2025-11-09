@@ -49,6 +49,7 @@ pub enum OperatorClass {
     MicroIgnition,
     RecurrencePattern,
     WillForce,
+    PerceptionModulation,
 }
 
 #[derive(Debug, Clone)]

@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Ρ — Perceptual Modulation (Section 014)
+struct RhoGate;
+
+impl OperatorGate for RhoGate {
+    fn symbol(&self) -> &'static str { "Ρ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // alters meaning trajectory via frame without breaking identity
+            prevented_fusion: true,         // modulation is not synthesis
+            prevented_disruption: true,     // preserves coherence while bending interpretation
+            note: Some("Ρ/ρ applies perceptual lens: refraction of recursion under context".into()),
+        }
+    }
+}
+
 // ω — Will-Force (Section 013)
 struct OmegaLowerGate;
 
@@ -260,6 +276,21 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("008".into()),
                 symbol: Some("Ψ".into()),
+            });
+        }
+
+        // Gate pass: Ρ/ρ (perceptual modulation)
+        let rho = RhoGate;
+        if content.contains(rho.symbol()) || content.contains("ρ") {
+            let out = rho.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Ρ: perceptual modulation — recursion filtered by observer frame".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::PerceptionModulation,
+                message: msg,
+                section_ref: Some("014".into()),
+                symbol: Some("Ρ".into()),
             });
         }
 
