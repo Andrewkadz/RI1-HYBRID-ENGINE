@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Τ — Synchronicity / Readiness (Section 018)
+struct TauGate;
+
+impl OperatorGate for TauGate {
+    fn symbol(&self) -> &'static str { "Τ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // enables transformation readiness without forcing it
+            prevented_fusion: true,         // not a synthesis itself
+            prevented_disruption: true,     // coherence via alignment
+            note: Some("Τ marks recursive readiness via synchronistic alignment".into()),
+        }
+    }
+}
+
 // Θ — Intention Vector (Section 016)
 struct ThetaGate;
 
@@ -323,6 +339,21 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("014".into()),
                 symbol: Some("Ρ".into()),
+            });
+        }
+
+        // Gate pass: Τ (synchronicity / readiness)
+        let tau = TauGate;
+        if content.contains(tau.symbol()) {
+            let out = tau.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Τ: synchronistic readiness — latent structures aligned".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Synchronicity,
+                message: msg,
+                section_ref: Some("018".into()),
+                symbol: Some("Τ".into()),
             });
         }
 

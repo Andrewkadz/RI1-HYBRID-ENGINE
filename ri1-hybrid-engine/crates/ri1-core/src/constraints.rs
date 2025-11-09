@@ -53,6 +53,7 @@ pub enum OperatorClass {
     MicroTransformation,
     IntentionVector,
     IndexModifier,
+    Synchronicity,
 }
 
 #[derive(Debug, Clone)]
