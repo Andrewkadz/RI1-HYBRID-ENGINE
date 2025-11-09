@@ -11,16 +11,16 @@ pub struct ValidatorConfig {}
 
 pub fn violation(message: impl Into<String>, symbol: Option<&str>) -> ResonanceEvent {
     ResonanceEvent {
-        operator: OperatorClass::Disruption,
+        operator: OperatorClass::InteractionViolation,
         message: message.into(),
         section_ref: None,
         symbol: symbol.map(|s| s.to_string()),
     }
 }
 
-pub fn notice(message: impl Into<String>, symbol: Option<&str>, class: OperatorClass) -> ResonanceEvent {
+pub fn notice(message: impl Into<String>, symbol: Option<&str>) -> ResonanceEvent {
     ResonanceEvent {
-        operator: class,
+        operator: OperatorClass::InteractionNotice,
         message: message.into(),
         section_ref: None,
         symbol: symbol.map(|s| s.to_string()),

@@ -28,18 +28,13 @@ pub fn validate_interactions(content: &str, _cfg: &ValidatorConfig) -> Vec<Reson
     if let Some(eq_idx) = content.find('=') {
         let tail = &content[eq_idx+1..];
         if tail.contains('Δ') || tail.contains('Ξ') || tail.contains('Π') {
-            events.push(ResonanceEvent {
-                operator: OperatorClass::StabilizationResolution,
-                message: "Post '=' transform detected (Δ/Ξ/Π). Stabilization should be terminal.".into(),
-                section_ref: None,
-                symbol: Some("=".into()),
-            });
+            events.push(violation("Post '=' transform detected (Δ/Ξ/Π). Stabilization should be terminal.", Some("=")));
         }
     }
 
     // 3) ':' contradictions with '|'
     if content.contains('|') && content.contains(':') {
-        events.push(notice("Orthogonality '|' with interaction ':' in same scope", Some("|"), OperatorClass::Orthogonality));
+        events.push(notice("Orthogonality '|' with interaction ':' in same scope", Some("|")));
     }
 
     // 4) Attempt to detect naive cycles with '→' in both directions
@@ -47,13 +42,13 @@ pub fn validate_interactions(content: &str, _cfg: &ValidatorConfig) -> Vec<Reson
         // Very simple heuristic: A → B and B → A both present
         // We just look for the literal reversed arrow presence and log a notice.
         if content.matches('→').count() > 1 {
-            events.push(notice("Multiple '→' arcs; ensure no causal cycles (use '[]' for loops)", Some("→"), OperatorClass::FlowVector));
+            events.push(notice("Multiple '→' arcs; ensure no causal cycles (use '[]' for loops)", Some("→")));
         }
     }
 
     // 5) ':' cannot be terminal
     if content.trim_end().ends_with(':') {
-        events.push(notice(": at end of expression; interaction requires counterpart", Some(":"), OperatorClass::InteractionInterface));
+        events.push(notice(": at end of expression; interaction requires counterpart", Some(":")));
     }
 
     events

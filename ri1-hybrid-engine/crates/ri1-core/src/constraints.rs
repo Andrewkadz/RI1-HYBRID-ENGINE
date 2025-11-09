@@ -64,6 +64,8 @@ pub enum OperatorClass {
     Orthogonality,
     LoopCycle,
     StabilizationResolution,
+    InteractionViolation,
+    InteractionNotice,
 }
 
 #[derive(Debug, Clone, Serialize)]
