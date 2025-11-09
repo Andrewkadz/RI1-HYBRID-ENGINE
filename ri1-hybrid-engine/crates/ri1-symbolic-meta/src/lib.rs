@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// λ — Entanglement (Section 012)
+struct LambdaLowerGate;
+
+impl OperatorGate for LambdaLowerGate {
+    fn symbol(&self) -> &'static str { "λ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // binds threads without forcing synthesis
+            prevented_fusion: true,         // explicitly non-fusional
+            prevented_disruption: true,     // linkage preserves coherence under change
+            note: Some("λ links recursion threads via non-local dependency".into()),
+        }
+    }
+}
+
 // ζ — Recurrence Pattern (Section 011)
 struct ZetaGate;
 
@@ -321,6 +337,36 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("006".into()),
                 symbol: Some("Ξ".into()),
+            });
+        }
+
+        // Gate pass: ζ (recurrence pattern / echo)
+        let zeta = ZetaGate;
+        if content.contains(zeta.symbol()) {
+            let out = zeta.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "ζ: recurrence pattern — meaningful reappearance of motifs".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::RecurrencePattern,
+                message: msg,
+                section_ref: Some("011".into()),
+                symbol: Some("ζ".into()),
+            });
+        }
+
+        // Gate pass: λ (entanglement / non-local binding)
+        let lam_lower = LambdaLowerGate;
+        if content.contains(lam_lower.symbol()) {
+            let out = lam_lower.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "λ: entanglement — non-local dependency across recursion threads".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Entanglement,
+                message: msg,
+                section_ref: Some("012".into()),
+                symbol: Some("λ".into()),
             });
         }
 
