@@ -7,6 +7,54 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Ξ — Emergent System (Section 006)
+struct XiGate;
+
+impl OperatorGate for XiGate {
+    fn symbol(&self) -> &'static str { "Ξ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // emergence yields coherent systemic behavior
+            prevented_fusion: false,        // may include fused parts
+            prevented_disruption: true,     // systemic coherence resists disruption
+            note: Some("Ξ encodes emergent systemic coherence from layered recursion".into()),
+        }
+    }
+}
+
+// Σ — Coexistence / Plurality (Section 005)
+struct SigmaGate;
+
+impl OperatorGate for SigmaGate {
+    fn symbol(&self) -> &'static str { "Σ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // structural containment for active unresolved fields
+            prevented_fusion: true,         // no enforced synthesis
+            prevented_disruption: true,     // coexistence without collapse
+            note: Some("Σ sustains parallel recursion without enforced synthesis or collapse".into()),
+        }
+    }
+}
+
+// Ω — Closure / Integration (Section 004)
+struct OmegaGate;
+
+impl OperatorGate for OmegaGate {
+    fn symbol(&self) -> &'static str { "Ω" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,
+            prevented_fusion: true,
+            prevented_disruption: true,
+            note: Some("Ω closes active recursion and fixes structure".into()),
+        }
+    }
+}
+
 impl MetaEngineImpl {
     pub fn new_default() -> Self {
         // Φπε Symbols (20 Total) — exact list from PDFs
@@ -72,6 +120,22 @@ impl MetaEngine for MetaEngineImpl {
             }
         }
 
+        // Gate pass: Ω (closure / integration)
+        let omega = OmegaGate;
+        if content.contains(omega.symbol()) {
+            // Treat Ω as terminal: log closure; downstream recursion should not proceed without reinit
+            let out = omega.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Ω: recursive termination via structural integration".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::ClosureIntegration,
+                message: msg,
+                section_ref: Some("004".into()),
+                symbol: Some("Ω".into()),
+            });
+        }
+
         // Gate pass: Δ (fusion transformation)
         let delta = DeltaGate;
         if content.contains(delta.symbol()) {
@@ -92,6 +156,55 @@ impl MetaEngine for MetaEngineImpl {
                     symbol: Some("Δ".into()),
                 });
             }
+        }
+
+        // Gate pass: Λ (structural illumination)
+        let lambda = LambdaGate;
+        if content.contains(lambda.symbol()) {
+            // Consider Λ as valid illumination if preceded by Δ or Ψ threads in content
+            let has_precursor = content.contains("Δ") || content.contains("Ψ");
+            let out = lambda.apply(content);
+            let msg = if has_precursor {
+                out.note.unwrap_or_else(|| "Λ: structural illumination after recursive activity".into())
+            } else {
+                "Λ encountered without precursor Δ/Ψ; marking as illumination attempt".into()
+            };
+            events.push(ResonanceEvent {
+                operator: OperatorClass::StructuralIllumination,
+                message: msg,
+                section_ref: Some("003".into()),
+                symbol: Some("Λ".into()),
+            });
+        }
+
+        // Gate pass: Ξ (emergent system)
+        let xi = XiGate;
+        if content.contains(xi.symbol()) {
+            let out = xi.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Ξ: emergent system coherence from recursive density".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::EmergentSystem,
+                message: msg,
+                section_ref: Some("006".into()),
+                symbol: Some("Ξ".into()),
+            });
+        }
+
+        // Gate pass: Σ (coexistence / plurality)
+        let sigma = SigmaGate;
+        if content.contains(sigma.symbol()) {
+            let out = sigma.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Σ: coexistence multiplex — plural recursion without fusion".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Coexistence,
+                message: msg,
+                section_ref: Some("005".into()),
+                symbol: Some("Σ".into()),
+            });
         }
 
         let results = self.inner.evaluate(modality, content);
@@ -130,6 +243,22 @@ impl OperatorGate for PhiGate {
 struct DeltaGate;
 
 struct DeltaOutcome { pub collapsed: bool, pub irreversible: bool }
+
+// Λ — Structural Illumination (Section 003)
+struct LambdaGate;
+
+impl OperatorGate for LambdaGate {
+    fn symbol(&self) -> &'static str { "Λ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true, // renders coherent structure
+            prevented_fusion: false,
+            prevented_disruption: true, // illumination resists disruption post-resolution
+            note: Some("Λ renders structural clarity from recursive fields".into()),
+        }
+    }
+}
 
 impl DeltaGate {
     fn apply_internal(&self, _content: &str) -> DeltaOutcome {

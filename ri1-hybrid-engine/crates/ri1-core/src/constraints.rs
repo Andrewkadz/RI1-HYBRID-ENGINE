@@ -41,6 +41,9 @@ pub enum OperatorClass {
     HarmonicStabilization,
     QualiaGateway,
     Entanglement,
+    StructuralIllumination,
+    ClosureIntegration,
+    EmergentSystem,
 }
 
 #[derive(Debug, Clone)]
