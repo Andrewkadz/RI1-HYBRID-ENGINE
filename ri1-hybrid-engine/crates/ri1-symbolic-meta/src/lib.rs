@@ -7,6 +7,38 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// ζ — Recurrence Pattern (Section 011)
+struct ZetaGate;
+
+impl OperatorGate for ZetaGate {
+    fn symbol(&self) -> &'static str { "ζ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // marks patterned return without altering identity
+            prevented_fusion: true,         // does not enforce synthesis
+            prevented_disruption: true,     // protects recurrent motif coherence
+            note: Some("ζ signals meaningful recurrence across recursion intervals".into()),
+        }
+    }
+}
+
+// ε — Micro-Ignition (Section 010)
+struct EpsilonGate;
+
+impl OperatorGate for EpsilonGate {
+    fn symbol(&self) -> &'static str { "ε" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,
+            prevented_fusion: true,   // acts as precise activation, not collapse
+            prevented_disruption: true,
+            note: Some("ε triggers a local branch/activation within an ongoing recursion".into()),
+        }
+    }
+}
+
 // Π — Transcendent Continuity (Section 009)
 struct PiGate;
 
@@ -181,6 +213,39 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("004".into()),
                 symbol: Some("Ω".into()),
+            });
+        }
+
+        // Gate pass: Ψ (oscillation / modulation)
+        let psi = PsiGate;
+        if content.contains(psi.symbol()) {
+            let out = psi.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Ψ: oscillation — modulation of recursion tempo/pressure".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Oscillation,
+                message: msg,
+                section_ref: Some("008".into()),
+                symbol: Some("Ψ".into()),
+            });
+        }
+
+        // Gate pass: ε (micro ignition / local activation)
+        let epsilon = EpsilonGate;
+        if content.contains(epsilon.symbol()) {
+            let has_context = content.len() > 3; // placeholder heuristic
+            let out = epsilon.apply(content);
+            let msg = if has_context {
+                out.note.unwrap_or_else(|| "ε: local activation within active recursion".into())
+            } else {
+                "ε encountered without surrounding context; micro-activation ignored".into()
+            };
+            events.push(ResonanceEvent {
+                operator: OperatorClass::MicroIgnition,
+                message: msg,
+                section_ref: Some("010".into()),
+                symbol: Some("ε".into()),
             });
         }
 

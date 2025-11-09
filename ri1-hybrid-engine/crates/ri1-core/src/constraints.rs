@@ -46,6 +46,8 @@ pub enum OperatorClass {
     EmergentSystem,
     DirectionalGrowth,
     Oscillation,
+    MicroIgnition,
+    RecurrencePattern,
 }
 
 #[derive(Debug, Clone)]
