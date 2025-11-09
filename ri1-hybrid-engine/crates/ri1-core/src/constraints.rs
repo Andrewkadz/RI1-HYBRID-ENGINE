@@ -50,6 +50,7 @@ pub enum OperatorClass {
     RecurrencePattern,
     WillForce,
     PerceptionModulation,
+    MicroTransformation,
 }
 
 #[derive(Debug, Clone)]

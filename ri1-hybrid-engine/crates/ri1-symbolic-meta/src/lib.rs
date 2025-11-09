@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// δ — Micro-Transformation (Section 015)
+struct DeltaLowerGate;
+
+impl OperatorGate for DeltaLowerGate {
+    fn symbol(&self) -> &'static str { "δ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // low-intensity evolution maintains coherence
+            prevented_fusion: true,         // not a fuse; small mutation
+            prevented_disruption: true,     // designed to avoid disruption
+            note: Some("δ applies subtle recursion mutation / fine-grain adjustment".into()),
+        }
+    }
+}
+
 // Ρ — Perceptual Modulation (Section 014)
 struct RhoGate;
 
@@ -327,6 +343,21 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("013".into()),
                 symbol: Some("ω".into()),
+            });
+        }
+
+        // Gate pass: δ (micro-transformation)
+        let delta_lower = DeltaLowerGate;
+        if content.contains(delta_lower.symbol()) {
+            let out = delta_lower.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "δ: fine-grain recursion adjustment / perturbation".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::MicroTransformation,
+                message: msg,
+                section_ref: Some("015".into()),
+                symbol: Some("δ".into()),
             });
         }
 
