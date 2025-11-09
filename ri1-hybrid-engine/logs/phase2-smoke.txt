@@ -1,0 +1,78 @@
+== Ε ignition ==
+TEXT: ΕΨ → Λ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Φ/Δ boundary and closure ==
+TEXT: ΕΔΦ → Ω
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Σ coexistence + + simultaneity ==
+TEXT: Σ(Ψ, Γ) + Λ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Ξ emergence from repetition ==
+TEXT: [ΔΨ] → Ξ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Γ directional growth with δ micro-shift ==
+TEXT: δΓ → Λ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Ρ perceptual modulation and Θ intention ==
+TEXT: ΡΘΔ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== λ entanglement and ζ recurrence ==
+TEXT: ζ(Ψ) λ Γ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== ω will-force vs Ω closure ==
+TEXT: ωΩ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Τ synchronicity readiness ==
+TEXT: (Ψ + Γ)Τ → Λ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== χ measurement bridge (with Ω pairing note) ==
+TEXT: χΩ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== Π trans-scalar + n index ==
+TEXT: [Δ]ⁿ → Π
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== = stabilization final form ==
+TEXT: ΨΔΛ = Ω
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+
+== : interface and / disruption and | orthogonality ==
+TEXT: Ψ : Φ  /  Ψ | Γ
+--- constraints ---
+non_empty [hard]: ok
+max_length [soft]: ok
+

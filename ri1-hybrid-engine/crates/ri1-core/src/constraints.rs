@@ -1,6 +1,7 @@
 use std::fmt;
+use serde::Serialize;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 pub enum Severity {
     Soft,
     Hard,
@@ -15,7 +16,7 @@ impl fmt::Display for Severity {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ConstraintResult {
     pub passed: bool,
     pub severity: Severity,
@@ -33,7 +34,7 @@ pub trait ConstraintEngine: Send + Sync {
 }
 
 // --- Phase 2: Meta Engine Interfaces ---
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 pub enum OperatorClass {
     Coexistence,
     Fusion,
@@ -65,7 +66,7 @@ pub enum OperatorClass {
     StabilizationResolution,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct Consent {
     pub granted: bool,
     pub subject: Option<String>,
@@ -73,7 +74,7 @@ pub struct Consent {
     pub section_ref: Option<String>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct FieldContext {
     pub phase: Option<String>,
     pub source: Option<String>,
@@ -84,7 +85,7 @@ impl Default for FieldContext {
     fn default() -> Self { Self { phase: Some("alpha".into()), source: None, field_id: None } }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct ResonanceEvent {
     pub operator: OperatorClass,
     pub message: String,
