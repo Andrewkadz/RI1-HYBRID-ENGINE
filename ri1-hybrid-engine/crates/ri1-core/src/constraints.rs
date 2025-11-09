@@ -45,6 +45,7 @@ pub enum OperatorClass {
     ClosureIntegration,
     EmergentSystem,
     DirectionalGrowth,
+    Oscillation,
 }
 
 #[derive(Debug, Clone)]

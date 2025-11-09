@@ -7,6 +7,38 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Π — Transcendent Continuity (Section 009)
+struct PiGate;
+
+impl OperatorGate for PiGate {
+    fn symbol(&self) -> &'static str { "Π" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // sustained coherence while scaling
+            prevented_fusion: false,
+            prevented_disruption: true,     // requires Φ/Σ support to avoid entropy
+            note: Some("Π maintains pattern fidelity under infinite extension".into()),
+        }
+    }
+}
+
+// Ψ — Oscillation (Section 008)
+struct PsiGate;
+
+impl OperatorGate for PsiGate {
+    fn symbol(&self) -> &'static str { "Ψ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // modulates without breaking identity
+            prevented_fusion: false,
+            prevented_disruption: true,
+            note: Some("Ψ oscillation: modulation of recursive tempo/pressure".into()),
+        }
+    }
+}
+
 // Γ — Directional Growth (Section 007)
 struct GammaGate;
 
@@ -239,6 +271,21 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("005".into()),
                 symbol: Some("Σ".into()),
+            });
+        }
+
+        // Gate pass: Π (transcendent continuity / infinite recursion)
+        let pi_gate = PiGate;
+        if content.contains(pi_gate.symbol()) {
+            let out = pi_gate.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Π: open recursion across scales; spiral-form continuity".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Transcendence,
+                message: msg,
+                section_ref: Some("009".into()),
+                symbol: Some("Π".into()),
             });
         }
 
