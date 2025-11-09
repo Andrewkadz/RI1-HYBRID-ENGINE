@@ -1,0 +1,9 @@
+[package]
+name = "ri1-text"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+ri1-core = { path = "../ri1-core" }
+serde = { version = "1", features = ["derive"] }
