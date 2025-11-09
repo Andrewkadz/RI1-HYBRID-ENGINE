@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// ω — Will-Force (Section 013)
+struct OmegaLowerGate;
+
+impl OperatorGate for OmegaLowerGate {
+    fn symbol(&self) -> &'static str { "ω" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // introduces bias without breaking identity
+            prevented_fusion: false,
+            prevented_disruption: true,
+            note: Some("ω encodes autogenic intention vector within recursion".into()),
+        }
+    }
+}
+
 // λ — Entanglement (Section 012)
 struct LambdaLowerGate;
 
@@ -262,6 +278,24 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("010".into()),
                 symbol: Some("ε".into()),
+            });
+        }
+
+        // Gate pass: ω (will-force / autogenic vector)
+        let omega_lower = OmegaLowerGate;
+        if content.contains(omega_lower.symbol()) {
+            let out = omega_lower.apply(content);
+            let has_closure = content.contains("Ω");
+            let msg = if has_closure {
+                "ω present with Ω; will-force cannot persist into closure".into()
+            } else {
+                out.note.unwrap_or_else(|| "ω: internal will vector biases recursive direction".into())
+            };
+            events.push(ResonanceEvent {
+                operator: OperatorClass::WillForce,
+                message: msg,
+                section_ref: Some("013".into()),
+                symbol: Some("ω".into()),
             });
         }
 
