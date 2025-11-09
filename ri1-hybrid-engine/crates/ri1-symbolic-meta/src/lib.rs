@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Γ — Directional Growth (Section 007)
+struct GammaGate;
+
+impl OperatorGate for GammaGate {
+    fn symbol(&self) -> &'static str { "Γ" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // preserves form through transformation
+            prevented_fusion: false,        // allows prior Δ output to persist
+            prevented_disruption: true,     // growth under continuity resists disruption
+            note: Some("Γ carries recursive identity forward with structured evolution".into()),
+        }
+    }
+}
+
 // Ξ — Emergent System (Section 006)
 struct XiGate;
 
@@ -174,6 +190,25 @@ impl MetaEngine for MetaEngineImpl {
                 message: msg,
                 section_ref: Some("003".into()),
                 symbol: Some("Λ".into()),
+            });
+        }
+
+        // Gate pass: Γ (directional growth)
+        let gamma = GammaGate;
+        if content.contains(gamma.symbol()) {
+            // Heuristic: more meaningful after Δ or Λ present
+            let has_precursor = content.contains("Δ") || content.contains("Λ");
+            let out = gamma.apply(content);
+            let msg = if has_precursor {
+                out.note.unwrap_or_else(|| "Γ: forward recursion with identity continuity".into())
+            } else {
+                "Γ encountered without Δ/Λ precursor; marking as directional modulation".into()
+            };
+            events.push(ResonanceEvent {
+                operator: OperatorClass::DirectionalGrowth,
+                message: msg,
+                section_ref: Some("007".into()),
+                symbol: Some("Γ".into()),
             });
         }
 

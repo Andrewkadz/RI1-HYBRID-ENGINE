@@ -44,6 +44,7 @@ pub enum OperatorClass {
     StructuralIllumination,
     ClosureIntegration,
     EmergentSystem,
+    DirectionalGrowth,
 }
 
 #[derive(Debug, Clone)]
