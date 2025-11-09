@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "crates/ri1-core",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2021"
+authors = ["RI1 Contributors"]
+license = "Apache-2.0"
