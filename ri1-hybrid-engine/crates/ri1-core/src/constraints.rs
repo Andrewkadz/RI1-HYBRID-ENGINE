@@ -78,4 +78,34 @@ pub trait MetaEngine: Send + Sync {
         content: &str,
         ctx: &FieldContext,
     ) -> (Vec<ConstraintResult>, Vec<ResonanceEvent>);
+    fn operators(&self) -> &[OperatorDef];
+    fn conditionals(&self) -> &[ConditionalDef];
+}
+
+#[derive(Debug, Clone)]
+pub struct OperatorDef {
+    pub key: String,          // canonical name
+    pub symbol: String,       // e.g., Φ, Λ, etc.
+    pub section_ref: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+pub struct ConditionalDef {
+    pub key: String,      // canonical name
+    pub symbol: String,   // e.g., +, /, :
+    pub section_ref: Option<String>,
+}
+
+// --- Field-Phase Operator Gates (e.g., Φ) ---
+#[derive(Debug, Clone)]
+pub struct GateOutcome {
+    pub stabilized: bool,
+    pub prevented_fusion: bool,
+    pub prevented_disruption: bool,
+    pub note: Option<String>,
+}
+
+pub trait OperatorGate: Send + Sync {
+    fn symbol(&self) -> &'static str;
+    fn apply(&self, content: &str) -> GateOutcome;
 }
