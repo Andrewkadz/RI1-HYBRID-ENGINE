@@ -7,6 +7,22 @@ pub struct MetaEngineImpl {
     conds: Vec<ConditionalDef>,
 }
 
+// Ε — Ignition / Initiation (Section 019)
+struct EpsilonCapitalGate;
+
+impl OperatorGate for EpsilonCapitalGate {
+    fn symbol(&self) -> &'static str { "Ε" }
+
+    fn apply(&self, _content: &str) -> GateOutcome {
+        GateOutcome {
+            stabilized: true,               // starts motion from rest without immediate collapse
+            prevented_fusion: true,         // ignition is not fusion
+            prevented_disruption: true,     // initiation should not disrupt cohesion
+            note: Some("Ε ignition: spark of kinetic chain reaction; phase initiation".into()),
+        }
+    }
+}
+
 // Τ — Synchronicity / Readiness (Section 018)
 struct TauGate;
 
@@ -282,6 +298,20 @@ impl MetaEngine for MetaEngineImpl {
         _ctx: &FieldContext,
     ) -> (Vec<ConstraintResult>, Vec<ResonanceEvent>) {
         let mut events: Vec<ResonanceEvent> = Vec::new();
+        // Gate pass: Ε (ignition / initiation)
+        let ecap = EpsilonCapitalGate;
+        if content.contains(ecap.symbol()) {
+            let out = ecap.apply(content);
+            let msg = out
+                .note
+                .unwrap_or_else(|| "Ε: ignition — trigger of motion from rest-state".into());
+            events.push(ResonanceEvent {
+                operator: OperatorClass::Ignition,
+                message: msg,
+                section_ref: Some("019".into()),
+                symbol: Some("Ε".into()),
+            });
+        }
         // Gate pass: Φ (field-phase continuity) detection
         let phi = PhiGate;
         if content.contains(phi.symbol()) {

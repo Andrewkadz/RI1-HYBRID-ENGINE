@@ -54,6 +54,7 @@ pub enum OperatorClass {
     IntentionVector,
     IndexModifier,
     Synchronicity,
+    Ignition,
 }
 
 #[derive(Debug, Clone)]
