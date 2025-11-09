@@ -6,3 +6,9 @@ authors.workspace = true
 license.workspace = true
 
 [dependencies]
+clap = { version = "4", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+ri1-core = { path = "../ri1-core" }
+ri1-text = { path = "../ri1-text" }
+ri1-symbolic-meta = { path = "../ri1-symbolic-meta" }

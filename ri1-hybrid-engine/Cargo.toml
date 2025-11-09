@@ -1,6 +1,6 @@
 [workspace]
 members = ["crates/ri1-audio", "crates/ri1-cli", "crates/ri1-code",
-    "crates/ri1-core", "crates/ri1-image", "crates/ri1-signal", "crates/ri1-symbolic", "crates/ri1-text",
+    "crates/ri1-core", "crates/ri1-image", "crates/ri1-signal", "crates/ri1-symbolic", "crates/ri1-symbolic-meta", "crates/ri1-text",
 ]
 resolver = "2"
 

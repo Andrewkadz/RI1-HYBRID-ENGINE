@@ -1,5 +1,5 @@
 [package]
-name = "ri1-symbolic"
+name = "ri1-symbolic-meta"
 version = "0.1.0"
 edition.workspace = true
 authors.workspace = true
@@ -7,3 +7,4 @@ license.workspace = true
 
 [dependencies]
 ri1-core = { path = "../ri1-core" }
+ri1-symbolic = { path = "../ri1-symbolic" }
