@@ -72,6 +72,28 @@ impl MetaEngine for MetaEngineImpl {
             }
         }
 
+        // Gate pass: Δ (fusion transformation)
+        let delta = DeltaGate;
+        if content.contains(delta.symbol()) {
+            let phi_present = content.contains("Φ");
+            let _out = delta.apply(content);
+            if phi_present {
+                events.push(ResonanceEvent {
+                    operator: OperatorClass::Fusion,
+                    message: "Δ fusion prevented across Φ boundary".into(),
+                    section_ref: Some("002".into()),
+                    symbol: Some("Δ".into()),
+                });
+            } else {
+                events.push(ResonanceEvent {
+                    operator: OperatorClass::Fusion,
+                    message: "Δ fusion collapse enacted".into(),
+                    section_ref: Some("002".into()),
+                    symbol: Some("Δ".into()),
+                });
+            }
+        }
+
         let results = self.inner.evaluate(modality, content);
         (results, events)
     }
@@ -100,6 +122,32 @@ impl OperatorGate for PhiGate {
             prevented_fusion: true,
             prevented_disruption: true,
             note: Some("Φ preserves tension: non-fusional, non-neutralizing, recursion-safe".into()),
+        }
+    }
+}
+
+// Δ — Fusion Transformation (Section 002)
+struct DeltaGate;
+
+struct DeltaOutcome { pub collapsed: bool, pub irreversible: bool }
+
+impl DeltaGate {
+    fn apply_internal(&self, _content: &str) -> DeltaOutcome {
+        // Scaffold behavior: model fusion collapse without mutating content
+        DeltaOutcome { collapsed: true, irreversible: true }
+    }
+}
+
+impl OperatorGate for DeltaGate {
+    fn symbol(&self) -> &'static str { "Δ" }
+
+    fn apply(&self, content: &str) -> GateOutcome {
+        let out = self.apply_internal(content);
+        GateOutcome {
+            stabilized: false,
+            prevented_fusion: false,
+            prevented_disruption: false,
+            note: if out.collapsed { Some("Δ fusion collapse".into()) } else { None },
         }
     }
 }
