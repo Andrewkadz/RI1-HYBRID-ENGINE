@@ -52,6 +52,7 @@ pub enum OperatorClass {
     PerceptionModulation,
     MicroTransformation,
     IntentionVector,
+    IndexModifier,
 }
 
 #[derive(Debug, Clone)]

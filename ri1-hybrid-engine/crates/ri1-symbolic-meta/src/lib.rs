@@ -341,6 +341,17 @@ impl MetaEngine for MetaEngineImpl {
             });
         }
 
+        // Modifier detection: n / ⁿ (index / depth / count)
+        let has_index_modifier = content.contains("ⁿ") || content.contains("(n)") || content.contains(" n ");
+        if has_index_modifier {
+            events.push(ResonanceEvent {
+                operator: OperatorClass::IndexModifier,
+                message: "n: index/depth/count modifier detected".into(),
+                section_ref: Some("017".into()),
+                symbol: Some("n".into()),
+            });
+        }
+
         // Gate pass: ε (micro ignition / local activation)
         let epsilon = EpsilonGate;
         if content.contains(epsilon.symbol()) {
