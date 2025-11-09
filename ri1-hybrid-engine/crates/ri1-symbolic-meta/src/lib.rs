@@ -1,5 +1,8 @@
 use ri1_core::constraints::{Consent, ConstraintResult, FieldContext, MetaEngine, OperatorClass, ResonanceEvent, ConstraintEngine, OperatorDef, ConditionalDef, OperatorGate, GateOutcome};
 use ri1_symbolic::SymbolicEngine;
+mod interaction;
+use interaction::validate::validate_interactions;
+use interaction::rules::ValidatorConfig;
 
 pub struct MetaEngineImpl {
     inner: SymbolicEngine,
@@ -314,6 +317,11 @@ impl MetaEngine for MetaEngineImpl {
         _ctx: &FieldContext,
     ) -> (Vec<ConstraintResult>, Vec<ResonanceEvent>) {
         let mut events: Vec<ResonanceEvent> = Vec::new();
+        // Phase 3 m1: interaction validation (read-only logging)
+        let ivals = validate_interactions(content, &ValidatorConfig::default());
+        if !ivals.is_empty() {
+            events.extend(ivals);
+        }
         // Gate pass: χ (measurement→perception bridge)
         let chi = ChiGate;
         if content.contains(chi.symbol()) {
