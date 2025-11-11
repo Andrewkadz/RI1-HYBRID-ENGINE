@@ -32,3 +32,44 @@ Rust-first, privacy-first neuro-symbolic, multimodal, agentic AI for Windsurf ID
 <p align="center">
   Built by <strong>Recursive Intelligence One (RI1)</strong>
 </p>
+
+## InfluenceSnapshot (Phase 3 m3)
+
+The meta-engine computes and exposes canonical influence signals capturing agent/operator influence and negotiation dynamics.
+
+- Returned via API: `MetaEngineImpl::evaluate_meta_with_snapshot(modality, content, ctx)`
+- Surfaced in CLI JSON envelopes when `--log-file` is used.
+
+Envelope example:
+
+```json
+{
+  "correlation_id": "...",
+  "modality": "text",
+  "content": "Ψ : Φ / Ψ | Γ = Ω",
+  "constraints": [ ... ],
+  "events": [ ... ],
+  "timestamp_unix_s": 1731170000,
+  "influence": {
+    "resonance_index": 0.80,
+    "operator_influence": [
+      { "operator": "InteractionNotice", "weight": 0.57 },
+      { "operator": "DirectionalGrowth", "weight": 0.07 },
+      { "operator": "Oscillation", "weight": 0.07 }
+    ],
+    "cooperation_count": 1,
+    "conflict_count": 2,
+    "negotiation": [
+      { "from": "Fusion", "to": "StructuralIllumination", "relation": "reinforce", "weight": 0.6 }
+    ],
+    "notes": null
+  }
+}
+```
+
+Fields:
+
+- `resonance_index`: 0.0–1.0 harmonic balance score.
+- `operator_influence`: normalized weights per `OperatorClass`.
+- `cooperation_count` / `conflict_count`: coarse cooperation/conflict tallies.
+- `negotiation`: edges between operators with `relation` and `weight`.

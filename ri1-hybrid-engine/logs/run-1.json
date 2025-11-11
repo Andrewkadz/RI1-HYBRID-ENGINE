@@ -1,0 +1,100 @@
+{
+  "correlation_id": "123e4567-e89b-12d3-a456-426614174000",
+  "modality": "text",
+  "content": "TEXT: [ΔΨ] → Ξ =",
+  "constraints": [
+    {
+      "passed": true,
+      "severity": "Hard",
+      "name": "non_empty",
+      "message": null
+    },
+    {
+      "passed": true,
+      "severity": "Soft",
+      "name": "max_length",
+      "message": null
+    }
+  ],
+  "events": [
+    {
+      "operator": "InteractionNotice",
+      "message": "correlation_id: 123e4567-e89b-12d3-a456-426614174000",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "consent: granted subject=default",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "field_protocol: modality=text phase=alpha",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "ethical_protocol: non-harm, privacy, transparency (logging-only)",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "interaction_summary: notices=0, violations=0",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "FlowVector",
+      "message": "→: flow vector — directed recursion motion",
+      "section_ref": null,
+      "symbol": "→"
+    },
+    {
+      "operator": "InteractionInterface",
+      "message": ": interaction — relational interface / tension-contact",
+      "section_ref": null,
+      "symbol": ":"
+    },
+    {
+      "operator": "LoopCycle",
+      "message": "[]: loop/cycle — recursion memory or repeat-phase container",
+      "section_ref": null,
+      "symbol": "[]"
+    },
+    {
+      "operator": "StabilizationResolution",
+      "message": "=: stabilization — final form / resolution",
+      "section_ref": null,
+      "symbol": "="
+    },
+    {
+      "operator": "Oscillation",
+      "message": "Ψ oscillation: modulation of recursive tempo/pressure",
+      "section_ref": "008",
+      "symbol": "Ψ"
+    },
+    {
+      "operator": "Fusion",
+      "message": "Δ fusion collapse enacted",
+      "section_ref": "002",
+      "symbol": "Δ"
+    },
+    {
+      "operator": "EmergentSystem",
+      "message": "Ξ encodes emergent systemic coherence from layered recursion",
+      "section_ref": "006",
+      "symbol": "Ξ"
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "meta_overview: consent=1 field=1 ethical=1 interaction_notices=4 interaction_violations=0",
+      "section_ref": null,
+      "symbol": null
+    }
+  ],
+  "timestamp_unix_s": 1762708392
+}

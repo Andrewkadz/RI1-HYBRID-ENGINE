@@ -1,5 +1,9 @@
 use ri1_core::constraints::{Consent, ConstraintResult, FieldContext, MetaEngine, OperatorClass, ResonanceEvent, ConstraintEngine, OperatorDef, ConditionalDef, OperatorGate, GateOutcome};
 use ri1_symbolic::SymbolicEngine;
+mod meta_constraints;
+mod influence;
+use meta_constraints::{consent_summary, field_protocol_notice, ethical_protocol_notice, interaction_summary, meta_overview};
+pub use influence::{InfluenceSnapshot, OperatorWeight, InfluenceEdge, compute_influence};
 mod interaction;
 use interaction::validate::validate_interactions;
 use interaction::rules::ValidatorConfig;
@@ -270,38 +274,49 @@ impl MetaEngineImpl {
     pub fn new_default() -> Self {
         // Φπε Symbols (20 Total) — exact list from PDFs
         let ops = vec![
-            op("harmonic_equilibrium", "Φ"),
-            op("transcendent_continuity", "Π"),
-            op("ignition_initiation", "Γ"),
-            op("micro_ignition", "ε"),
-            op("fusion_transformation", "Δ"),
-            op("micro_transformation", "δ"),
-            op("oscillation", "Ψ"),
-            op("structural_illumination", "Λ"),
-            op("entanglement", "λ"),
-            op("recursive_growth", "Γ̇"),
-            op("closure_integration", "Ω"),
-            op("will_force", "ω"),
-            op("coexistence_plurality", "Σ"),
-            op("emergent_system", "Ξ"),
-            op("recurrence_pattern_echo", "ζ"),
-            op("synchronicity_readiness", "τ"),
-            op("perception_modulation", "ρ"),
-            op("intention_vector", "Θ"),
-            op("depth_index_modifier", "n"),
-            op("measurement_perception_bridge", "χ"),
+            OperatorDef { key: "HarmonicStabilization".into(), symbol: "Φ".into(), section_ref: Some("001".into()) },
+            OperatorDef { key: "TranscendentContinuity".into(), symbol: "Π".into(), section_ref: Some("009".into()) },
+            OperatorDef { key: "IgnitionInitiation".into(), symbol: "Γ".into(), section_ref: Some("007".into()) },
+            OperatorDef { key: "MicroIgnition".into(), symbol: "ε".into(), section_ref: Some("010".into()) },
+            OperatorDef { key: "FusionTransformation".into(), symbol: "Δ".into(), section_ref: Some("015".into()) },
+            OperatorDef { key: "MicroTransformation".into(), symbol: "δ".into(), section_ref: Some("015".into()) },
+            OperatorDef { key: "Oscillation".into(), symbol: "Ψ".into(), section_ref: Some("008".into()) },
+            OperatorDef { key: "StructuralIllumination".into(), symbol: "Λ".into(), section_ref: Some("016".into()) },
+            OperatorDef { key: "Entanglement".into(), symbol: "λ".into(), section_ref: Some("012".into()) },
+            OperatorDef { key: "RecursiveGrowth".into(), symbol: "Γ̇".into(), section_ref: Some("007".into()) },
+            OperatorDef { key: "ClosureIntegration".into(), symbol: "Ω".into(), section_ref: Some("004".into()) },
+            OperatorDef { key: "WillForce".into(), symbol: "ω".into(), section_ref: Some("013".into()) },
+            OperatorDef { key: "CoexistencePlurality".into(), symbol: "Σ".into(), section_ref: Some("005".into()) },
+            OperatorDef { key: "EmergentSystem".into(), symbol: "Ξ".into(), section_ref: Some("006".into()) },
+            OperatorDef { key: "RecurrencePatternEcho".into(), symbol: "ζ".into(), section_ref: Some("011".into()) },
+            OperatorDef { key: "SynchronicityReadiness".into(), symbol: "τ".into(), section_ref: Some("018".into()) },
+            OperatorDef { key: "PerceptionModulation".into(), symbol: "ρ".into(), section_ref: Some("014".into()) },
+            OperatorDef { key: "IntentionVector".into(), symbol: "Θ".into(), section_ref: Some("017".into()) },
+            OperatorDef { key: "DepthIndexModifier".into(), symbol: "n".into(), section_ref: None },
+            OperatorDef { key: "MeasurementPerceptionBridge".into(), symbol: "χ".into(), section_ref: Some("020".into()) },
         ];
         // Φπε Operators (7 Total) — exact set from PDFs
         let conds = vec![
-            cond("flow_vector_directional_recursion", "→"),
-            cond("simultaneity_coexistent_fields", "+"),
-            cond("interaction_field_tension_interface", ":"),
-            cond("disruption_recursive_instability", "/"),
-            cond("orthogonality_non_interacting_fields", "|"),
-            cond("loop_cycle_recursion_memory", "[]"),
-            cond("stabilization_final_state_resolution", "="),
+            ConditionalDef { key: "FlowVector".into(), symbol: "→".into(), section_ref: None },
+            ConditionalDef { key: "Simultaneity".into(), symbol: "+".into(), section_ref: None },
+            ConditionalDef { key: "InteractionInterface".into(), symbol: ":".into(), section_ref: None },
+            ConditionalDef { key: "Disruption".into(), symbol: "/".into(), section_ref: None },
+            ConditionalDef { key: "Orthogonality".into(), symbol: "|".into(), section_ref: None },
+            ConditionalDef { key: "LoopCycle".into(), symbol: "[]".into(), section_ref: None },
+            ConditionalDef { key: "StabilizationResolution".into(), symbol: "=".into(), section_ref: None },
         ];
         Self { inner: SymbolicEngine::new_default(), ops, conds }
+    }
+
+    pub fn evaluate_meta_with_snapshot(
+        &self,
+        modality: &str,
+        content: &str,
+        ctx: &FieldContext,
+    ) -> (Vec<ConstraintResult>, Vec<ResonanceEvent>, InfluenceSnapshot) {
+        let (constraints, events) = <Self as MetaEngine>::evaluate_meta(self, modality, content, ctx);
+        let (snapshot, _ev) = influence::compute_influence(&events);
+        (constraints, events, snapshot)
     }
 }
 
@@ -317,11 +332,24 @@ impl MetaEngine for MetaEngineImpl {
         _ctx: &FieldContext,
     ) -> (Vec<ConstraintResult>, Vec<ResonanceEvent>) {
         let mut events: Vec<ResonanceEvent> = Vec::new();
+        // Phase 3 m2: meta-constraints logging (consent + protocols)
+        let consent = self.consent_check(_ctx);
+        events.push(consent_summary(&consent));
+        events.push(field_protocol_notice(modality, _ctx));
+        events.push(ethical_protocol_notice());
         // Phase 3 m1: interaction validation (read-only logging)
         let ivals = validate_interactions(content, &ValidatorConfig::default());
-        if !ivals.is_empty() {
-            events.extend(ivals);
+        let mut notices = 0usize;
+        let mut violations = 0usize;
+        for e in &ivals {
+            match e.operator {
+                OperatorClass::InteractionNotice => notices += 1,
+                OperatorClass::InteractionViolation => violations += 1,
+                _ => {}
+            }
         }
+        if !ivals.is_empty() { events.extend(ivals); }
+        events.push(interaction_summary(notices, violations));
         // Gate pass: χ (measurement→perception bridge)
         let chi = ChiGate;
         if content.contains(chi.symbol()) {
@@ -698,6 +726,29 @@ impl MetaEngine for MetaEngineImpl {
         }
 
         let results = self.inner.evaluate(modality, content);
+        // m3: influence summary (logging-only)
+        let (_infl, infl_event) = influence::compute_influence(&events);
+        events.push(infl_event);
+        // Build meta_overview counts
+        let mut consent_count = 0usize;
+        let mut field_count = 0usize;
+        let mut ethical_count = 0usize;
+        let mut interaction_notices = 0usize;
+        let mut interaction_violations = 0usize;
+        for e in &events {
+            match e.message.as_str() {
+                m if m.starts_with("consent:") => consent_count += 1,
+                m if m.starts_with("field_protocol:") => field_count += 1,
+                m if m.starts_with("ethical_protocol:") => ethical_count += 1,
+                _ => {}
+            }
+            match e.operator {
+                OperatorClass::InteractionNotice => interaction_notices += 1,
+                OperatorClass::InteractionViolation => interaction_violations += 1,
+                _ => {}
+            }
+        }
+        events.push(meta_overview(consent_count, field_count, ethical_count, interaction_notices, interaction_violations));
         (results, events)
     }
 

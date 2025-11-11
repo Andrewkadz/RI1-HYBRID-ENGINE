@@ -34,7 +34,7 @@ pub trait ConstraintEngine: Send + Sync {
 }
 
 // --- Phase 2: Meta Engine Interfaces ---
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
 pub enum OperatorClass {
     Coexistence,
     Fusion,

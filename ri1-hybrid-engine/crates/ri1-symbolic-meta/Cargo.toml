@@ -8,3 +8,7 @@ license.workspace = true
 [dependencies]
 ri1-core = { path = "../ri1-core" }
 ri1-symbolic = { path = "../ri1-symbolic" }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1"

@@ -1,0 +1,9 @@
+{
+  "modality": "text",
+  "content": "Φ + Σ",
+  "checks": {
+    "min_cooperation": 1,
+    "max_conflict": 0,
+    "expect_relations": []
+  }
+}

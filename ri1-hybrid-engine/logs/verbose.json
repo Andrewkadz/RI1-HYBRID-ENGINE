@@ -1,0 +1,94 @@
+{
+  "correlation_id": "d4f024cf-bac8-4c60-9b5d-65af8846eb3f",
+  "modality": "text",
+  "content": "TEXT: ΔΩ → Π",
+  "constraints": [
+    {
+      "passed": true,
+      "severity": "Hard",
+      "name": "non_empty",
+      "message": null
+    },
+    {
+      "passed": true,
+      "severity": "Soft",
+      "name": "max_length",
+      "message": null
+    }
+  ],
+  "events": [
+    {
+      "operator": "InteractionNotice",
+      "message": "correlation_id: d4f024cf-bac8-4c60-9b5d-65af8846eb3f",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "consent: granted subject=default",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "field_protocol: modality=text phase=alpha",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "ethical_protocol: non-harm, privacy, transparency (logging-only)",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "InteractionViolation",
+      "message": "Post 'Ω' transform detected (Δ/Ξ/Π). Closure should be terminal.",
+      "section_ref": null,
+      "symbol": "Ω"
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "interaction_summary: notices=0, violations=1",
+      "section_ref": null,
+      "symbol": null
+    },
+    {
+      "operator": "FlowVector",
+      "message": "→: flow vector — directed recursion motion",
+      "section_ref": null,
+      "symbol": "→"
+    },
+    {
+      "operator": "InteractionInterface",
+      "message": ": interaction — relational interface / tension-contact",
+      "section_ref": null,
+      "symbol": ":"
+    },
+    {
+      "operator": "ClosureIntegration",
+      "message": "Ω closes active recursion and fixes structure",
+      "section_ref": "004",
+      "symbol": "Ω"
+    },
+    {
+      "operator": "Fusion",
+      "message": "Δ fusion collapse enacted",
+      "section_ref": "002",
+      "symbol": "Δ"
+    },
+    {
+      "operator": "Transcendence",
+      "message": "Π maintains pattern fidelity under infinite extension",
+      "section_ref": "009",
+      "symbol": "Π"
+    },
+    {
+      "operator": "InteractionNotice",
+      "message": "meta_overview: consent=1 field=1 ethical=1 interaction_notices=4 interaction_violations=1",
+      "section_ref": null,
+      "symbol": null
+    }
+  ],
+  "timestamp_unix_s": 1762708396
+}
